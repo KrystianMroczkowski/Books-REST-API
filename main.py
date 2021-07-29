@@ -126,9 +126,10 @@ def get_book_by_id(book_id):
         return {"message": "No books with this id"}
 
 
-@app.route("/db")
+@app.route("/db", methods=["POST"])
 def download_books_data():
-    params = {"q": "war"}
+    data = request.form
+    params = data.to_dict()
     response = requests.get("https://www.googleapis.com/books/v1/volumes", params=params).json()
     books_json = json.dumps(response)
     books_json_clean = books_json.replace("'", "**")
